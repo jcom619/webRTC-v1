@@ -4,14 +4,19 @@
   "description": "First webrtc app",
   "main": "index.js",
   "scripts": {
+    "start": "nodemon",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
     "webrtc"
   ],
-  "author": "Km Habib",
+  "author": "",
   "license": "ISC",
   "dependencies": {
+    "nodemon": "^2.0.12",
     "wscat": "^4.0.1"
+  },
+  "devDependencies": {
+    "@types/nodemon": "^1.19.1"
   }
 }
