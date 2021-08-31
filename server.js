@@ -1,4 +1,4 @@
-var webSocketServ = require('ws').Server;
+const webSocketServ = require('ws').Server;
 
 
 var wss = new webSocketServ({
