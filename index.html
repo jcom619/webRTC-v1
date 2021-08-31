@@ -1,64 +1,113 @@
 <!DOCTYPE html>
-
-<html lang="en">
-
+<html>
 <head>
+<style>
+body {box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+	background: rgba(230,245,253,1);
+}
+img {
+    display: inline-block;
+    border-radius: 50%;
+    margin: 0;
+    padding: 0;
+}
+div {  
+background-attachment: url(https://cdn.glitch.com/1ba8884d-b96f-41cf-9f77-f50fe772ba2c%2Fsubtlepulse.gif?v=1627670517342);  
+margin-left: 50%;
+margin-top: 50%;
+  border: 2px solid rgba(255,255,255,0.13);
+  box-shadow: 
+    inset 1px 1px 3px white, 
+     inset 1px 1px 3px rgba(0,0,0,0.5), 
+    inset -1px -1px 3px rgba(0,0,0,0.5),
+    inset 1px 1px 6px white,  
+    inset -1px -1px 6px rgba(0,0,0,0.5),
+    0px 0px 3px rgba(0,0,0,0.2),
+    0px 0px 3px white,
+    11px 11px 30px white, 
+    -11px -11px 30px rgba(0,0,0,0.5),
+    11px 11px 30px white, 
+    -11px -11px 30px rgba(0,0,0,0.5);
+  width: 30px;
+  height: 30px;
+  background-color: white;
+  animation-name: infinite-shadow;
+  animation-delay:5s;
+  animation-duration: 3s;
+  animation-iteration-count: infinite;
+  border-radius: 50%;
+}
+.container {
+    position: absolute;
+}
+@keyframes infinite-shadow {
+  0%   {
+    border: 2px solid rgba(255,255,255,0.13);
+  	box-shadow: 
+    inset 1px 1px 3px white,
+    inset 1px 1px 3px rgba(0,0,0,0.5), 
+      inset -1px -1px 3px rgba(0,0,0,0.5),
+      inset 1px 1px 6px white,  
+      inset -1px -1px 6px rgba(0,0,0,0.5),
+      0px 0px 3px rgba(0,0,0,0.2),
+      0px 0px 3px white,
+      11px 11px 30px white, 
+      -11px -11px 30px rgba(0,0,0,0.5)
+      -1px -1px 30px white, 
+      -11px -11px 30px rgba(0,0,0,0.5);
+  	 width: 30px;
+     height: 30px;
+  }
 
-    <meta charset="UTF-8">
+    50%   {
+    border: -1px solid rgba(255,255,255,0.7);
+    box-shadow:
+        inset 1px 1px 3px white, 
+        inset 1px 1px 3px rgba(0,0,0,0.5), 
+        inset -1px -1px 3px rgba(0,0,0,0.5),
+        inset 1px 1px 6px white,  
+        inset -1px -1px 6px rgba(0,0,0,0.5),
+        0px 0px 3px rgba(0,0,0,0.2),
+        0px 0px 3px white,
+       11px 11px 35px white, 
+        -11px -11px 35px rgba(0,0,0,0.5),
+        11px 11px 35px white, 
+        -11px -11px 35px rgba(0,0,0,0.5);
+      width: 35px;
+      height: 35px;
+      transition: all 3s ease-in-out;
+    }
 
-    <title>WebRTC App</title>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/materialize.min.css">
-    <link rel="stylesheet" href="assets/css/style.css">
-    <style>
-        #chat-area::-webkit-scrollbar {
-            display: none;
-        }
-
-    </style>
+    75%   {
+        border: 2px solid rgba(255,255,255,0.13);
+    	box-shadow: 
+          inset 1px 1px 3px white,
+          inset 1px 1px 3px rgba(0,0,0,0.5), 
+          inset -1px -1px 3px rgba(0,0,0,0.5),
+          inset 1px 1px 6px white,  
+          inset -1px -1px 6px rgba(0,0,0,0.5),
+          0px 0px 3px rgba(0,0,0,0.2),
+          0px 0px 3px white,
+          11px 11px 30px white,
+          -11px -11px 30px rgba(0,0,0,0.5),
+          11px 11px 30px white, 
+          -11px -11px 30px rgba(0,0,0,0.5);
+        width: 30px;
+        height: 30px;
+    }
+       
+}
+</style>
 
 </head>
-
 <body>
-    <div class="main-wrap">
-        <div class="call-wrap card" style="z-index: 99">
-            <video id="local-video" autoplay></video>
-            <div class="row remote-video-wrap" style="position: relative;">
-                <div class="call-hang-status" style="position: absolute, z-index:999">
 
-                </div>
-                <video id="remote-video" autoplay></video>
-            </div>
-            <div class="record-action">
-                <button id="start-recording" class="btn btn-small waves-effect red" disabled>Start Recording</button>
-                <button id="download-video" class="btn btn-small waves-effect teal" disabled> Download Vedio</button>
-            </div>
-            <div class="row">
-                <div class="col m12">
-                    <input type="text" name="" id="username-input" placeholder="Username">
-                    <button id="call-btn" class="btn waves-effect"> Call</button>
-                </div>
-            </div>
-        </div>
-        <div class="chat-wrap card">
-            <div class="row">
-                <div class="col m12 white">
-                    <div class="card-title">Text Chat</div>
-                    <div id="chat-area" style="display: flex;flex-direction: column;width: 100%;overflow-y: scroll;"></div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col m12">
-                    <input type="text" placeholder="Message" name="" id="msg-input">
-                    <button id="msg-sent-btn" class="btn waves-effect">Send</button>
-                </div>
-            </div>
-        </div>
-    </div>
+<div class="container">
 
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="assets/js/materialize.min.js"></script>
-    <script src="assets/js/client.js"></script>
+<div class="wrapper">child <div class="center">grandchild<img src="https://cdn.glitch.com/d15a0c62-6117-4382-a960-4f51f8fc660a%2Fcreep.gif?v=1627435029713" /></div></div>
+</div>
 </body>
-
 </html>
+
