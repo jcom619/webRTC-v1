@@ -5,13 +5,13 @@ var wss = new webSocketServ({
     port: 9090
 })
 
-var users = {};
-var otherUser;
+const users = {};
+const otherUser;
 wss.on('connection', function (conn) {
     console.log("User connected");
 
     conn.on('message', function (message) {
-        var data;
+        const data;
 
         try {
             data = JSON.parse(message);
@@ -41,7 +41,7 @@ wss.on('connection', function (conn) {
                 break;
             case "offer":
 
-                var connect = users[data.name];
+                const connect = users[data.name];
                 if (connect != null) {
                     conn.otherUser = data.name;
 
@@ -69,7 +69,7 @@ wss.on('connection', function (conn) {
 
             case "candidate":
 
-                var connect = users[data.name];
+                const connect = users[data.name];
 
                 if (connect != null) {
                     sendToOtherUser(connect, {
@@ -80,7 +80,7 @@ wss.on('connection', function (conn) {
                 break;
             case "reject":
 
-                var connect = users[data.name];
+                const connect = users[data.name];
 
                 if (connect != null) {
                     sendToOtherUser(connect, {
@@ -91,7 +91,7 @@ wss.on('connection', function (conn) {
                 break;
             case "accept":
 
-                var connect = users[data.name];
+                const connect = users[data.name];
 
                 if (connect != null) {
                     sendToOtherUser(connect, {
@@ -101,7 +101,7 @@ wss.on('connection', function (conn) {
                 }
                 break;
             case "leave":
-                var connect = users[data.name];
+                const connect = users[data.name];
                 connect.otherUser = null;
 
                 if (connect != null) {
