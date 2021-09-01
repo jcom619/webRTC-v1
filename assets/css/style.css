@@ -1,44 +1,61 @@
-body {
-    background-image: url(../images/bg.jpg);
-    opacity: 0.8;
-    background-size: cover;
-}
+
 
 .main-wrap {
     display: flex;
     justify-content: center;
     align-items: flex-end;
 }
+.webrtc-login, .card {
+    border-radius: 18px;
+    margin: 20px;
+}
+body {
+    background-image: url(../images/bg.jpg);
+    opacity: 0.8;
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+}
 
 video {
-    background: black;
-    border: 1px solid gray;
+    border: 3px solid gray;
+    border-radius: 22px;
+    box-shadow: inset 1px 1px 15px black;
+    /*margin: 10px;*/
 }
 
 .call-wrap {
     position: relative;
     display: block;
-    padding: 10px;
+    width: 45vw;
+    height: 45vw;
 }
 
 #local-video {
-    width: 100px;
-    height: 100px;
+    width: 18vw;
+    height: 18vw;
     position: absolute;
     top: 15px;
     right: 15px;
     z-index: 9;
+    margin: 1px;
+    border: 1px solid ghostwhite;
 }
 
 #remote-video {
-    width: 500px;
-    height: 500px;
+    background-image: url("assets/images/me.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 45vw;
+    height: 45vw;
 }
 
 .chat-wrap {
-    display: block;
-    width: 400px;
-    margin-left: 15px;
+    display: -ms-inline-flexbox;
+    width: 40vw;
+    margin-left: 5px;
     padding: 10px;
     max-height: 500px;
     overflow-y: scroll;
@@ -47,7 +64,7 @@ video {
 .call-hang-status {
     position: absolute;
     z-index: 999;
-    height: 97%;
+    height: 55vw;
     width: 100%;
 }
 
@@ -56,7 +73,7 @@ video {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100%;
+    height: 74%;
     z-index: 9;
 }
 
@@ -130,4 +147,66 @@ video {
     border-radius: 50%;
     padding: 8px;
     cursor: pointer;
+}
+
+/*
+
+
+
+
+KEEP EM...YOU KNOW...SEPERATED?
+
+
+
+
+*/
+
+/* Create two equal columns that floats next to each other */
+.column {
+    float: left;
+    padding: 10px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+/* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+    .column {
+        width: 100vw;
+        height: 100vh;
+    }
+    #remote-video {
+        background-image: url("assets/images/me.jpg");
+        background-repeat: no-repeat;
+        background-size: cover;
+        width: 80vw;
+        height: 80vw;
+    }
+    .call-wrap {
+        position: relative;
+        display: block;
+        border-radius: 15px;
+        width: 80vw;
+        height: 80vw;
+    }
+    .calling-status-wrap {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 74%;
+        z-index: 9;
+    }
+    .chat-wrap {
+        display: -ms-inline-flexbox;
+        width: 90vw;
+        margin-left: 5px;
+        padding: 10px;
+        max-height: 500px;
+    }
 }
