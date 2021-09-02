@@ -1,11 +1,11 @@
-var connection = new WebSocket('ws://localhost:9090');
+const connection = new WebSocket('ws://localhost:9090');
 
 connection.onopen = function () {
     console.log("Connected to the server");
 }
 
-var recordButton = document.querySelector("#start-recording");
-var downloadButton = document.querySelector("#download-video");
+const recordButton = document.querySelector("#start-recording");
+const downloadButton = document.querySelector("#download-video");
 
 recordButton.addEventListener("click", () => {
     if (recordButton.textContent === 'Start Recording') {
@@ -41,7 +41,7 @@ function handleDataAvailable(event) {
 }
 
 function startRecording() {
-    recordedBlobs = []
+    let recordedBlobs = []
     let options = {
         mimeType: 'video/webm;codecs=vp9,opus'
     }
@@ -77,29 +77,30 @@ function startRecording() {
 function stopRecording() {
     mediaRecorder.stop();
 }
+const call_status = document.querySelector(".call-hang-status");
 connection.onmessage = function (msg) {
-    var data = JSON.parse(msg.data);
+    const data = JSON.parse(msg.data);
     switch (data.type) {
         case "login":
             loginProcess(data.success);
             break;
         case "offer":
             call_status.innerHTML = '<div class="calling-status-wrap card black white-text"> <div class="user-image"> <img src="assets/images/me.jpg" class="caller-image circle" alt=""> </div> <div class="user-name">' + data.name + '</div> <div class="user-calling-status">Calling...</div> <div class="calling-action"> <div class="call-accept"><i class="material-icons green darken-2 white-text audio-icon">call</i></div> <div class="call-reject"><i class="material-icons red darken-3 white-text close-icon">close</i></div> </div> </div>';
-            var call_receive = document.querySelector('.call-accept');
-            var call_reject = document.querySelector('.call-reject');
+            const call_receive = document.querySelector('.call-accept');
+            const call_reject = document.querySelector('.call-reject');
             call_receive.addEventListener("click", function () {
                 recordButton.disabled = false;
                 acceptCall(data.name);
                 offerProcess(data.offer, data.name);
                 call_status.innerHTML = '<div class="call-status-wrap white-text"> <div class="calling-wrap"> <div class="calling-hang-action"> <div class="videocam-on"> <i class="material-icons teal darken-2 white-text video-toggle">videocam</i> </div> <div class="audio-on"> <i class="material-icons teal darken-2 white-text audio-toggle">mic</i> </div> <div class="call-cancel"> <i class="call-cancel-icon material-icons red darken-3 white-text">call</i> </div> </div> </div> </div>';
 
-                var video_toggle = document.querySelector('.videocam-on');
-                var audio_toggle = document.querySelector('.audio-on');
+                const video_toggle = document.querySelector('.videocam-on');
+                const audio_toggle = document.querySelector('.audio-on');
                 video_toggle.onclick = function () {
                     stream.getVideoTracks()[0].enabled = !(stream.getVideoTracks()[0].enabled);
 
-                    var video_toggle_class = document.querySelector('.video-toggle');
-                    if (video_toggle_class.innerText == 'videocam') {
+                    const video_toggle_class = document.querySelector('.video-toggle');
+                    if (video_toggle_class.innerText === 'videocam') {
                         video_toggle_class.innerText = 'videocam_off';
                     } else {
                         video_toggle_class.innerText = 'videocam';
@@ -112,7 +113,7 @@ connection.onmessage = function (msg) {
                 audio_toggle.onclick = function () {
                     stream.getAudioTracks()[0].enabled = !(stream.getAudioTracks()[0].enabled);
 
-                    var audio_toggle_class = document.querySelector('.audio-toggle');
+                    const audio_toggle_class = document.querySelector('.audio-toggle');
                     if (video_toggle_class.innerText == 'mic') {
                         video_toggle_class.innerText = 'mic_off';
                     } else {
@@ -157,17 +158,16 @@ connection.onmessage = function (msg) {
 connection.onerror = function (error) {
     console.log(error);
 }
-var connected_user;
-var local_video = document.querySelector("#local-video");
-var remote_video = document.querySelector("#remote-video");
-var call_btn = document.querySelector("#call-btn");
-var call_to_username_input = document.querySelector("#username-input");
-var call_status = document.querySelector(".call-hang-status");
+let connected_user;
+const local_video = document.querySelector("#local-video");
+const remote_video = document.querySelector("#remote-video");
+const call_btn = document.querySelector("#call-btn");
+const call_to_username_input = document.querySelector("#username-input");
 
 call_btn.addEventListener("click", function () {
-    var call_to_username = call_to_username_input.value;
+    const call_to_username = call_to_username_input.value;
     call_status.innerHTML = '<div class="calling-status-wrap card black white-text"> <div class="user-image"> <img src="assets/images/other.jpg" class="caller-image circle" alt=""> </div> <div class="user-name">' + call_to_username + '</div> <div class="user-calling-status">Calling...</div> <div class="calling-action"> <div class="call-reject"><i class="material-icons red darken-3 white-text close-icon">close</i></div> </div> </div>';
-    var call_reject = document.querySelector('.call-reject');
+    const call_reject = document.querySelector('.call-reject');
     call_reject.addEventListener("click", function () {
         call_status.innerHTML = '';
         alert('Call is rejected');
@@ -190,13 +190,13 @@ call_btn.addEventListener("click", function () {
 
     }
 })
-var name;
-var connectedUser;
+let name;
+let connectedUser;
 var myConn;
-var dataChannel;
-var url_string = window.location.href;
+let dataChannel;
+const url_string = window.location.href;
 var url = new URL(url_string);
-var username = url.searchParams.get("username");
+const username = url.searchParams.get("username");
 
 setTimeout(function () {
 
@@ -224,6 +224,8 @@ function send(message) {
     connection.send(JSON.stringify(message))
 }
 
+const chatArea = document.querySelector("#chat-area");
+
 function loginProcess(success) {
     if (success === false) {
         alert("Try a different username");
@@ -235,11 +237,11 @@ function loginProcess(success) {
             stream = myStream;
             local_video.srcObject = stream;
 
-            var configuration = {
+            const configuration = {
                 "iceServers": [{
                     "url": "stun:stun2.1.google.com:19302"
-            }]
-            }
+                }]
+            };
 
             myConn = new webkitRTCPeerConnection(configuration, {
                 optional: [{
@@ -254,7 +256,7 @@ function loginProcess(success) {
                 console.log("Error: ", error)
             }
             dataChannel.onmessage = function (event) {
-                chatArea.innerHTML += "<div class='left-align' style='display:flex;align-items:center;'><img src='assets/images/other.jpg' style='height:40px;width:40px;' class='caller-image circle'><div style='font-weight:600;margin:0 5px;'>" + connected_user + "</div>: <div>" + event.data + "</div></div><br/>";
+                chatArea.innerHTML += "<div class='left-align' style='display:flex;align-items:center;'><img src='assets/images/other.jpg' style='height:40px;width:40px;' class='caller-image circle' alt='er'><div style='font-weight:600;margin:0 5px;'>" + connected_user + "</div>: <div>" + event.data + "</div></div><br/>";
             }
             dataChannel.onclose = function () {
                 console.log("data channel is closed");
@@ -267,13 +269,13 @@ function loginProcess(success) {
 
                 call_status.innerHTML = '<div class="call-status-wrap white-text"> <div class="calling-wrap"> <div class="calling-hang-action"> <div class="videocam-on"> <i class="material-icons teal darken-2 white-text video-toggle">videocam</i> </div> <div class="audio-on"> <i class="material-icons teal darken-2 white-text audio-toggle">mic</i> </div> <div class="call-cancel"> <i class="call-cancel-icon material-icons red darken-3 white-text">call</i> </div> </div> </div> </div>';
 
-                var video_toggle = document.querySelector('.videocam-on');
-                var audio_toggle = document.querySelector('.audio-on');
+                const video_toggle = document.querySelector('.videocam-on');
+                const audio_toggle = document.querySelector('.audio-on');
                 video_toggle.onclick = function () {
                     stream.getVideoTracks()[0].enabled = !(stream.getVideoTracks()[0].enabled);
 
-                    var video_toggle_class = document.querySelector('.video-toggle');
-                    if (video_toggle_class.innerText == 'videocam') {
+                    const video_toggle_class = document.querySelector('.video-toggle');
+                    if (video_toggle_class.innerText === 'videocam') {
                         video_toggle_class.innerText = 'videocam_off';
                     } else {
                         video_toggle_class.innerText = 'videocam';
@@ -283,8 +285,8 @@ function loginProcess(success) {
                 audio_toggle.onclick = function () {
                     stream.getAudioTracks()[0].enabled = !(stream.getAudioTracks()[0].enabled);
 
-                    var audio_toggle_class = document.querySelector('.audio-toggle');
-                    if (video_toggle_class.innerText == 'mic') {
+                    const audio_toggle_class = document.querySelector('.audio-toggle');
+                    if (video_toggle_class.innerText === 'mic') {
                         video_toggle_class.innerText = 'mic_off';
                     } else {
                         video_toggle_class.innerText = 'mic';
@@ -364,7 +366,7 @@ function acceptProcess() {
 }
 
 function hangup() {
-    var call_cancel = document.querySelector('.call-cancel');
+    const call_cancel = document.querySelector('.call-cancel');
     call_cancel.addEventListener("click", function () {
         call_status.innerHTML = '';
         send({
@@ -382,12 +384,12 @@ function leaveProcess() {
     myConn.onaddstream = null;
     connected_user = null;
 }
-var msgInput = document.querySelector("#msg-input");
-var msgSendBtn = document.querySelector("#msg-sent-btn");
-var chatArea = document.querySelector("#chat-area");
+
+const msgInput = document.querySelector("#msg-input");
+const msgSendBtn = document.querySelector("#msg-sent-btn");
 msgSendBtn.addEventListener("click", function (event) {
-    var msgVal = msgInput.value;
-    chatArea.innerHTML += "<div class='right-align' style='display:flex; align-items:center;align-self:flex-end'><div>" + msgVal + "</div>:<div style='font-weight:600;margin:0 5px;'> " + name + "</div><img src='assets/images/me.jpg' style='height:40px;width:40px;' class='caller-image circle'></div><br/>";
+    const msgVal = msgInput.value;
+    chatArea.innerHTML += "<div class='right-align' style='display:flex; align-items:center;align-self:flex-end'><div>" + msgVal + "</div>:<div style='font-weight:600;margin:0 5px;'> " + name + "</div><img alt='er' src='assets/images/me.jpg' style='height:40px;width:40px;' class='caller-image circle'></div><br/>";
     dataChannel.send(msgVal);
     msgInput.value = "";
 })
