@@ -1,12 +1,10 @@
-const WebSocket = require('ws');
-
 const connection = new WebSocket('ws://localhost:9090');
 
 connection.onopen = function () {
     console.log("Connected to the server");
 }
 
-const recordButton = this.document.querySelector("#start-recording");
+const recordButton = document.querySelector("#start-recording");
 const downloadButton = document.querySelector("#download-video");
 
 recordButton.addEventListener("click", () => {
@@ -43,7 +41,7 @@ function handleDataAvailable(event) {
 }
 
 function startRecording() {
-    let recordedBlobs = []
+    recordedBlobs = []
     let options = {
         mimeType: 'video/webm;codecs=vp9,opus'
     }
@@ -79,7 +77,6 @@ function startRecording() {
 function stopRecording() {
     mediaRecorder.stop();
 }
-const call_status = document.querySelector(".call-hang-status");
 connection.onmessage = function (msg) {
     const data = JSON.parse(msg.data);
     switch (data.type) {
@@ -165,6 +162,7 @@ const local_video = document.querySelector("#local-video");
 const remote_video = document.querySelector("#remote-video");
 const call_btn = document.querySelector("#call-btn");
 const call_to_username_input = document.querySelector("#username-input");
+var call_status = document.querySelector(".call-hang-status");
 
 call_btn.addEventListener("click", function () {
     const call_to_username = call_to_username_input.value;
@@ -226,8 +224,6 @@ function send(message) {
     connection.send(JSON.stringify(message))
 }
 
-const chatArea = document.querySelector("#chat-area");
-
 function loginProcess(success) {
     if (success === false) {
         alert("Try a different username");
@@ -258,7 +254,7 @@ function loginProcess(success) {
                 console.log("Error: ", error)
             }
             dataChannel.onmessage = function (event) {
-                chatArea.innerHTML += "<div class='left-align' style='display:flex;align-items:center;'><img src='assets/images/other.jpg' style='height:40px;width:40px;' class='caller-image circle' alt='er'><div style='font-weight:600;margin:0 5px;'>" + connected_user + "</div>: <div>" + event.data + "</div></div><br/>";
+                chatArea.innerHTML += "<div class='left-align' style='display:flex;align-items:center;'><img src='assets/images/other.jpg' style='height:40px;width:40px;' class='caller-image circle'><div style='font-weight:600;margin:0 5px;'>" + connected_user + "</div>: <div>" + event.data + "</div></div><br/>";
             }
             dataChannel.onclose = function () {
                 console.log("data channel is closed");
@@ -389,9 +385,10 @@ function leaveProcess() {
 
 const msgInput = document.querySelector("#msg-input");
 const msgSendBtn = document.querySelector("#msg-sent-btn");
+var chatArea = document.querySelector("#chat-area");
 msgSendBtn.addEventListener("click", function (event) {
     const msgVal = msgInput.value;
-    chatArea.innerHTML += "<div class='right-align' style='display:flex; align-items:center;align-self:flex-end'><div>" + msgVal + "</div>:<div style='font-weight:600;margin:0 5px;'> " + name + "</div><img alt='er' src='assets/images/me.jpg' style='height:40px;width:40px;' class='caller-image circle'></div><br/>";
+    chatArea.innerHTML += "<div class='right-align' style='display:flex; align-items:center;align-self:flex-end'><div>" + msgVal + "</div>:<div style='font-weight:600;margin:0 5px;'> " + name + "</div><img src='assets/images/me.jpg' style='height:40px;width:40px;' class='caller-image circle'></div><br/>";
     dataChannel.send(msgVal);
     msgInput.value = "";
 })
