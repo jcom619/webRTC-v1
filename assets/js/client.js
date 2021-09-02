@@ -1,10 +1,12 @@
+const WebSocket = require('ws');
+
 const connection = new WebSocket('ws://localhost:9090');
 
 connection.onopen = function () {
     console.log("Connected to the server");
 }
 
-const recordButton = document.querySelector("#start-recording");
+const recordButton = this.document.querySelector("#start-recording");
 const downloadButton = document.querySelector("#download-video");
 
 recordButton.addEventListener("click", () => {
