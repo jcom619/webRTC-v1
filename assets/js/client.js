@@ -1,4 +1,4 @@
-const connection = new WebSocket('ws://localhost:9090');
+const connection = new WebSocket('wss://wrtc-server.glitch.me/');
 
 connection.onopen = function () {
     console.log("Connected to the server");
