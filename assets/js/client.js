@@ -1,4 +1,8 @@
-const connection = new WebSocket('wss://wrtc-server.glitch.me/');
+const connection = new WebSocket('wss://wrtc-server.glitch.me/', {
+    headers : {
+        "user- agent" : "Mozilla"
+}
+});
 
 connection.onopen = function () {
     console.log("Connected to the server");
